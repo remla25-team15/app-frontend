@@ -5,7 +5,7 @@ from flask import Flask, jsonify, render_template
 
 app = Flask(__name__)
 
-APP_SERVICE_URL = os.getenv("APP_SERVICE_URL", "http://localhost:5000")
+APP_SERVICE_URL = os.getenv("APP_SERVICE_URL", "http://app-service:5000")
 
 
 @app.route("/api/version")
