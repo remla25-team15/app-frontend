@@ -8,9 +8,6 @@ load_dotenv()
 
 
 app = Flask(__name__)
-app.config["ENV"] = os.getenv("FLASK_ENV", "production")
-app.config["DEBUG"] = os.getenv("DEBUG", "false").lower() == "true"
-app.config["APP_NAME"] = os.getenv("APP_NAME", "app-frontend")
 
 APP_SERVICE_URL = os.getenv("APP_SERVICE_URL", "http://app-service:5000")
 
@@ -41,4 +38,10 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=3000)
+    port = os.getenv("PORT", 3000)
+    debug = os.getenv("DEBUG", "false").lower() == "true"
+
+    app.config["ENV"] = os.getenv("FLASK_ENV", "production")
+    app.config["APP_NAME"] = os.getenv("APP_NAME", "app-frontend")
+
+    app.run(host="0.0.0.0", port=port, debug=debug)
