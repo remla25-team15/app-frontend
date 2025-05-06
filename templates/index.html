@@ -38,7 +38,7 @@
         const response = await fetch(`/api/version`);
         const versions = await response.json();
         document.getElementById("version-info").textContent =
-          `App Version: ${versions.app_version} | Model Version: ${versions.model_version}`;
+          `App Version: ${versions.app_version} | Model Version: ${versions.model_service_version}`;
       }
 
       async function predictSentiment(text) {
