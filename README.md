@@ -24,7 +24,7 @@ docker build -t app-frontend .
 docker run -p 3000:3000 -e FLASK_ENV=development -e DEBUG=true -e APP_SERVICE_URL=http://localhost:5000 app-frontend
 ```
 
-### Production Setup
+### Production Setup 
 In production, the application uses gunicorn as the WSGI server and integrates with Kubernetes service discovery:
 
 ```bash
