@@ -2,9 +2,11 @@ import os
 
 import requests
 from flask import Flask, jsonify, render_template, request
+
 from dotenv import load_dotenv
 
 load_dotenv()
+
 
 app = Flask(__name__)
 app.config['ENV'] = os.getenv('FLASK_ENV', 'production')
