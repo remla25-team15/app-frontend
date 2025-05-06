@@ -19,6 +19,11 @@
         width: 100%;
         height: 100px;
       }
+      #feedback-message {
+        margin-top: 10px;
+        color: green;
+          font-weight: bold;
+      }
     </style>
   </head>
   <body>
@@ -31,6 +36,7 @@
       <p>Prediction: <span id="prediction">-</span></p>
       <button onclick="sendFeedback(true)">Correct</button>
       <button onclick="sendFeedback(false)">Incorrect</button>
+      <div id="feedback-message"></div>
     </div>
 
     <script>
@@ -53,6 +59,9 @@
       }
 
       async function sendFeedback(isCorrect) {
+        document.getElementById("feedback-message").textContent =
+            "Thank you for your feedback!";
+
         await fetch(`/api/feedback`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
