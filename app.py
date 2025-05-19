@@ -85,7 +85,7 @@ def index():
 
 if __name__ == "__main__":
     port = os.getenv("PORT", 3000)
-    debug = os.getenv("DEBUG", "false").lower() == "false"
+    debug = os.getenv("DEBUG", "false").lower() == "true"
 
     app.config["ENV"] = os.getenv("FLASK_ENV", "production")
     app.config["APP_NAME"] = os.getenv("APP_NAME", "app-frontend")
