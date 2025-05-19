@@ -21,7 +21,8 @@ prediction_requests_total = Counter(
 
 active_users_total = Gauge(
     "frontend_active_users_total",
-    "Total number of active users"
+    "Total number of active users",
+["device_type"]
 )
 
 predict_latency = Histogram(
@@ -43,14 +44,15 @@ def version_proxy():
 
 
 @app.route("/api/predict", methods=["POST"])
-@predict_latency.time()  # Measure request duration
 def predict_proxy():
     payload = request.get_json()
 
     try:
-        response = requests.post(f"{APP_SERVICE_URL}/api/predict", json=payload)
+        with predict_latency.time():
+            response = requests.post(f"{APP_SERVICE_URL}/api/predict", json=payload)
         prediction_requests_total.labels(status=str(response.status_code)).inc()
         return jsonify(response.json()), response.status_code
+
     except Exception as e:
         prediction_requests_total.labels(status="500").inc()
         return jsonify({"error": str(e)}), 500
@@ -76,7 +78,8 @@ def feedback_proxy():
 
 @app.route("/")
 def index():
-    active_users_total.inc()
+    active_users_total.labels(device_type="desktop").set(4)
+    active_users_total.labels(device_type="mobile").inc()
     return render_template("index.html", app_service_url=APP_SERVICE_URL)
 
 
