@@ -1,10 +1,11 @@
 import os
 import time
+
 import requests
 from dotenv import load_dotenv
 from flask import Flask, jsonify, render_template, request
-from prometheus_flask_exporter import PrometheusMetrics
 from prometheus_client import Counter, Gauge, Histogram
+from prometheus_flask_exporter import PrometheusMetrics
 
 load_dotenv()
 
@@ -16,26 +17,25 @@ APP_SERVICE_URL = os.getenv("APP_SERVICE_URL", "http://app-service:5000")
 prediction_requests_total = Counter(
     "frontend_prediction_requests_total",
     "Total number of prediction requests sent from frontend",
-    ["status"]
+    ["status"],
 )
 
 active_users_total = Gauge(
-    "frontend_active_users_total",
-    "Total number of active users",
-["device_type"]
+    "frontend_active_users_total", "Total number of active users", ["device_type"]
 )
 
 predict_latency = Histogram(
     "frontend_predict_request_duration_seconds",
     "Latency for frontend /api/predict calls",
-    buckets=(0.1, 0.25, 0.5, 1, 2, 5)
+    buckets=(0.1, 0.25, 0.5, 1, 2, 5),
 )
 
 feedback_rating_total = Counter(
     "frontend_feedback_rating_total",
     "Total number of feedbacks classified by type",
-    ["feedback_type"]  # "positive" or "negative"
+    ["feedback_type"],  # "positive" or "negative"
 )
+
 
 @app.route("/api/version")
 def version_proxy():
