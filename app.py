@@ -39,7 +39,7 @@ feedback_rating_total = Counter(
 
 @app.route("/api/version")
 def version_proxy():
-    response = requests.get(f"{APP_SERVICE_URL}/api/version")
+    response = requests.get(f"{APP_SERVICE_URL}/app/api/version")
     return jsonify(response.json()), response.status_code
 
 
@@ -49,7 +49,7 @@ def predict_proxy():
 
     try:
         with predict_latency.time():
-            response = requests.post(f"{APP_SERVICE_URL}/api/predict", json=payload)
+            response = requests.post(f"{APP_SERVICE_URL}/app/api/predict", json=payload)
         prediction_requests_total.labels(status=str(response.status_code)).inc()
         return jsonify(response.json()), response.status_code
 
@@ -70,7 +70,7 @@ def feedback_proxy():
         else:
             feedback_rating_total.labels(feedback_type="unknown").inc()
 
-        response = requests.post(f"{APP_SERVICE_URL}/api/feedback", json=payload)
+        response = requests.post(f"{APP_SERVICE_URL}/app/api/feedback", json=payload)
         return "", response.status_code
     except Exception as e:
         return jsonify({"error": str(e)}), 500
