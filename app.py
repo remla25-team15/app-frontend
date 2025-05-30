@@ -1,10 +1,11 @@
 import os
 import time
+
 import requests
 from dotenv import load_dotenv
 from flask import Flask, jsonify, render_template, request
-from prometheus_flask_exporter import PrometheusMetrics
 from prometheus_client import Counter, Gauge, Histogram
+from prometheus_flask_exporter import PrometheusMetrics
 
 load_dotenv()
 
@@ -16,30 +17,29 @@ APP_SERVICE_URL = os.getenv("APP_SERVICE_URL", "http://app-service:5000")
 prediction_requests_total = Counter(
     "frontend_prediction_requests_total",
     "Total number of prediction requests sent from frontend",
-    ["status"]
+    ["status"],
 )
 
 active_users_total = Gauge(
-    "frontend_active_users_total",
-    "Total number of active users",
-["device_type"]
+    "frontend_active_users_total", "Total number of active users", ["device_type"]
 )
 
 predict_latency = Histogram(
     "frontend_predict_request_duration_seconds",
     "Latency for frontend /api/predict calls",
-    buckets=(0.1, 0.25, 0.5, 1, 2, 5)
+    buckets=(0.1, 0.25, 0.5, 1, 2, 5),
 )
 
 feedback_rating_total = Counter(
     "frontend_feedback_rating_total",
     "Total number of feedbacks classified by type",
-    ["feedback_type"]  # "positive" or "negative"
+    ["feedback_type"],  # "positive" or "negative"
 )
+
 
 @app.route("/api/version")
 def version_proxy():
-    response = requests.get(f"{APP_SERVICE_URL}/api/version")
+    response = requests.get(f"{APP_SERVICE_URL}/app/api/version")
     return jsonify(response.json()), response.status_code
 
 
@@ -49,7 +49,7 @@ def predict_proxy():
 
     try:
         with predict_latency.time():
-            response = requests.post(f"{APP_SERVICE_URL}/api/predict", json=payload)
+            response = requests.post(f"{APP_SERVICE_URL}/app/api/predict", json=payload)
         prediction_requests_total.labels(status=str(response.status_code)).inc()
         return jsonify(response.json()), response.status_code
 
@@ -70,7 +70,7 @@ def feedback_proxy():
         else:
             feedback_rating_total.labels(feedback_type="unknown").inc()
 
-        response = requests.post(f"{APP_SERVICE_URL}/api/feedback", json=payload)
+        response = requests.post(f"{APP_SERVICE_URL}/app/api/feedback", json=payload)
         return "", response.status_code
     except Exception as e:
         return jsonify({"error": str(e)}), 500
