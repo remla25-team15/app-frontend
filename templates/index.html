@@ -75,6 +75,16 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ text }),
         });
+        // if rate limited, skip parsing and return early
+        if (response.status === 429) {
+          console.warn('Rate limit exceeded (429)');
+          return;
+        }
+        // handle other errors
+        if (!response.ok) {
+          console.error(`Request failed: ${response.status} ${response.statusText}`);
+          return;
+        }
         const result = await response.json();
         document.getElementById("prediction").textContent =
           result.prediction === 1 ? "Positive 😊" : "Negative ☹️";
