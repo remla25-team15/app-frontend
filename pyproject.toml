@@ -1,0 +1,29 @@
+[project]
+name = "app-frontend"
+version = "3.3.3-alpha"
+description = "Frontend for the application"
+authors = [
+    {name = "shreyas",email = "shreyaskalvankar@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "flask (>=3.1.0,<4.0.0)",
+    "python-dotenv (>=1.1.0,<2.0.0)",
+    "flasgger (>=0.9.7.1,<0.10.0.0)",
+    "requests (>=2.32.3,<3.0.0)",
+    "libversion @ git+https://github.com/remla25-team15/lib-version.git@v0.0.2"
+]
+
+[tool.bumpver]
+current_version = "3.3.3-alpha"
+version_pattern = "MAJOR.MINOR.PATCH[-TAG]"
+commit = true
+tag = false
+version_files = ["pyproject.toml:project.version"]
+
+[tool.bumpver.file_patterns]
+"pyproject.toml" = [
+    '^version = "{version}"',
+    '^current_version = "{version}"'
+]
