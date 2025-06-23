@@ -24,6 +24,23 @@
         color: green;
           font-weight: bold;
       }
+      .feedback-buttons {
+        margin-top: 10px;
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+
+      .feedback-buttons img {
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+
+      .feedback-buttons img:hover {
+        transform: scale(1.2);
+      }
 
       /* Rate limit notification styles */
       .rate-limit-popup {
@@ -67,7 +84,6 @@
           opacity: 1;
         }
       }
-
     </style>
   </head>
   <body>
@@ -77,19 +93,23 @@
     <textarea id="text-input" placeholder="Enter your text here..."></textarea>
 
     <div class="result" id="result">
-      <p>Prediction: <span id="prediction">-</span></p>
-      <button onclick="sendFeedback(true)">Correct</button>
-      <button onclick="sendFeedback(false)">Incorrect</button>
-      <div id="feedback-message"></div>
+        <p>Prediction: <span id="prediction">-</span></p>
+        <div class="feedback-buttons">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrrj8k1ctQ7cFF-TQckBNjb7n923nW1tckzQ&s"
+                 alt="Thumbs Up" onclick="sendFeedback(true)" title="Correct"/>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_NASV4hz9MwBhV5px5ejDKW0Ws818puZJcA&s"
+                 alt="Thumbs Down" onclick="sendFeedback(false)" title="Incorrect"/>
+        </div>
+
+        <div id="feedback-message"></div>
     </div>
 
     <script>
-        
-        function showRateLimitPopup() {
-          // Remove any existing popup
-          const existingPopup = document.querySelector('.rate-limit-popup');
-          if (existingPopup) {
-            existingPopup.remove();
+      function showRateLimitPopup() {
+        // Remove any existing popup
+        const existingPopup = document.querySelector('.rate-limit-popup');
+        if (existingPopup) {
+          existingPopup.remove();
         }
 
         // Create popup element
