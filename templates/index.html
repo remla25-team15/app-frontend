@@ -1,4 +1,4 @@
-<!doctype html>
+<!doctype html>More actions
 <html>
   <head>
     <title>Assignment-1</title>
@@ -22,7 +22,24 @@
       #feedback-message {
         margin-top: 10px;
         color: green;
-          font-weight: bold;
+        font-weight: bold;
+      }
+      .feedback-buttons {
+        margin-top: 10px;
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+
+      .feedback-buttons img {
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+
+      .feedback-buttons img:hover {
+        transform: scale(1.2);
       }
 
       /* Rate limit notification styles */
@@ -67,7 +84,6 @@
           opacity: 1;
         }
       }
-
     </style>
   </head>
   <body>
@@ -78,23 +94,35 @@
 
     <div class="result" id="result">
       <p>Prediction: <span id="prediction">-</span></p>
-      <button onclick="sendFeedback(true)">Correct</button>
-      <button onclick="sendFeedback(false)">Incorrect</button>
+      <div class="feedback-buttons">
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrrj8k1ctQ7cFF-TQckBNjb7n923nW1tckzQ&s"
+          alt="Thumbs Up"
+          onclick="sendFeedback(true)"
+          title="Correct"
+        />
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_NASV4hz9MwBhV5px5ejDKW0Ws818puZJcA&s"
+          alt="Thumbs Down"
+          onclick="sendFeedback(false)"
+          title="Incorrect"
+        />
+      </div>
+
       <div id="feedback-message"></div>
     </div>
 
     <script>
-        
-        function showRateLimitPopup() {
-          // Remove any existing popup
-          const existingPopup = document.querySelector('.rate-limit-popup');
-          if (existingPopup) {
-            existingPopup.remove();
+      function showRateLimitPopup() {
+        // Remove any existing popup
+        const existingPopup = document.querySelector(".rate-limit-popup");
+        if (existingPopup) {
+          existingPopup.remove();
         }
 
         // Create popup element
-        const popup = document.createElement('div');
-        popup.className = 'rate-limit-popup';
+        const popup = document.createElement("div");
+        popup.className = "rate-limit-popup";
         popup.innerHTML = `
           <button class="close-btn" onclick="this.parentElement.remove()">&times;</button>
           <strong>Rate Limit Exceeded!</strong><br>
@@ -127,13 +155,15 @@
         });
         // if rate limited, skip parsing and return early
         if (response.status === 429) {
-          console.warn('Rate limit exceeded (429)');
+          console.warn("Rate limit exceeded (429)");
           showRateLimitPopup();
           return;
         }
         // handle other errors
         if (!response.ok) {
-          console.error(`Request failed: ${response.status} ${response.statusText}`);
+          console.error(
+            `Request failed: ${response.status} ${response.statusText}`,
+          );
           return;
         }
         const result = await response.json();
@@ -143,7 +173,7 @@
 
       async function sendFeedback(isCorrect) {
         document.getElementById("feedback-message").textContent =
-            "Thank you for your feedback!";
+          "Thank you for your feedback!";
 
         await fetch(`/api/feedback`, {
           method: "POST",
@@ -163,3 +193,4 @@
     </script>
   </body>
 </html>
+
