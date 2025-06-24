@@ -17,7 +17,6 @@ The application supports different environments through environment variables:
 
 ```bash
 # Using local Python
-cp .env.example .env  # Copy example env file and modify as needed
 pip install -r requirements.txt
 python app.py
 
@@ -133,4 +132,3 @@ This workflow was designed to achieve the following:
 - Enables team members to test experimental features independently
 
 There might be a better way to do this, and we're open to feedback.
-
