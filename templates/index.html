@@ -94,20 +94,8 @@
 
     <div class="result" id="result">
       <p>Prediction: <span id="prediction">-</span></p>
-      <div class="feedback-buttons">
-        <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrrj8k1ctQ7cFF-TQckBNjb7n923nW1tckzQ&s"
-          alt="Thumbs Up"
-          onclick="sendFeedback(true)"
-          title="Correct"
-        />
-        <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_NASV4hz9MwBhV5px5ejDKW0Ws818puZJcA&s"
-          alt="Thumbs Down"
-          onclick="sendFeedback(false)"
-          title="Incorrect"
-        />
-      </div>
+      <button onclick="sendFeedback(true)">Correct</button>
+      <button onclick="sendFeedback(false)">Incorrect</button>
 
       <div id="feedback-message"></div>
     </div>
