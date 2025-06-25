@@ -1,6 +1,6 @@
 [project]
 name = "app-frontend"
-version = "3.3.5"
+version = "3.3.6-alpha"
 description = "Frontend for the application"
 authors = [
     {name = "shreyas",email = "shreyaskalvankar@gmail.com"}
@@ -8,7 +8,7 @@ authors = [
 readme = "README.md"
 
 [tool.bumpver]
-current_version = "3.3.5"
+current_version = "3.3.6-alpha"
 version_pattern = "MAJOR.MINOR.PATCH[-TAG]"
 commit = true
 tag = false
