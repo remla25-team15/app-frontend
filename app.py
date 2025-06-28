@@ -14,6 +14,13 @@ metrics = PrometheusMetrics(app)
 
 APP_SERVICE_URL = os.getenv("APP_SERVICE_URL", "http://app-service:5000")
 
+# Simple page view counter
+page_views_total = Counter(
+    'frontend_page_views_total',
+    'Total number of page views',
+    ['endpoint']
+)
+
 prediction_requests_total = Counter(
     "frontend_prediction_requests_total",
     "Total number of prediction requests sent from frontend",
@@ -78,6 +85,7 @@ def feedback_proxy():
 
 @app.route("/")
 def index():
+    page_views_total.labels(endpoint='/').inc()
     active_users_total.labels(device_type="desktop").set(4)
     active_users_total.labels(device_type="mobile").inc()
     return render_template("index.html", app_service_url=APP_SERVICE_URL)
